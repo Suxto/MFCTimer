@@ -51,14 +51,12 @@ BOOL DlgAdd::OnInitDialog() {
     
     m_tab_ctl.InsertItem(0, TEXT("闹钟"));
     alarm_dlg.Create(IDD_DIALOG2, &m_tab_ctl);
-    m_tab_ctl.InsertItem(1, TEXT("倒计时"));
-    timer_dlg.Create(IDD_DIALOG3, &m_tab_ctl);
-
     arr_dlgs[0] = &alarm_dlg;
     arr_dlgs[0]->ShowWindow(SW_SHOW);
     arr_dlgs[0]->SetWindowPos(&wndTop, nX, nY, nXc, nYc, SWP_SHOWWINDOW);
 
-    
+    m_tab_ctl.InsertItem(1, TEXT("倒计时"));
+    timer_dlg.Create(IDD_DIALOG3, &m_tab_ctl);
     arr_dlgs[1] = &timer_dlg;
     arr_dlgs[1]->SetWindowPos(&wndTop, nX, nY, nXc, nYc, SWP_HIDEWINDOW);
     arr_dlgs[1]->ShowWindow(SW_HIDE);
