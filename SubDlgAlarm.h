@@ -19,7 +19,7 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual BOOL SubDlgAlarm::OnInitDialog();
+	virtual BOOL OnInitDialog();
 	DECLARE_MESSAGE_MAP()
       public:
         CEdit m_hour_box;
