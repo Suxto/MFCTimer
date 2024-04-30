@@ -7,6 +7,7 @@
 #include "MFCTimer.h"
 #include "MFCTimerDlg.h"
 #include "afxdialogex.h"
+#include "DlgAdd.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,6 +69,7 @@ BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
         ON_WM_TIMER()
+        ON_BN_CLICKED(IDC_BUTTON1, &CMFCTimerDlg::OnBnClickedAddTimer)
         END_MESSAGE_MAP()
 
 
@@ -96,7 +98,7 @@ BOOL CMFCTimerDlg::OnInitDialog()
                                DEFAULT_PITCH | FF_SWISS, // 字体的间距和族
                                _T("Arial")               // 字体名称
         );
-        CFont *pFont = CFont::FromHandle(timeFont);
+    CFont *pFont = CFont::FromHandle(timeFont);
 
 
     // 获取当前时间
@@ -196,3 +198,9 @@ void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
     CDialogEx::OnTimer(nIDEvent);
 }
 
+
+
+void CMFCTimerDlg::OnBnClickedAddTimer() {
+    DlgAdd dlg;
+    INT_PTR resp = dlg.DoModal();
+}

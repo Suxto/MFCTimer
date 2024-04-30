@@ -35,4 +35,5 @@ protected:
         CStatic m_timeDisplay;
         CString m_list;
         CListBox m_list_ctl;
+        afx_msg void OnBnClickedAddTimer();
 };

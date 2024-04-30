@@ -183,14 +183,18 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DlgAdd.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MFCTimer.h" />
     <ClInclude Include="MFCTimerDlg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SubDlgAlarm.h" />
+    <ClInclude Include="SubDlgTimer.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DlgAdd.cpp" />
     <ClCompile Include="MFCTimer.cpp" />
     <ClCompile Include="MFCTimerDlg.cpp" />
     <ClCompile Include="pch.cpp">
@@ -199,6 +203,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SubDlgAlarm.cpp" />
+    <ClCompile Include="SubDlgTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCTimer.rc" />
