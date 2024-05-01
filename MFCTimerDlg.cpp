@@ -53,7 +53,8 @@ END_MESSAGE_MAP()
 
 CMFCTimerDlg::CMFCTimerDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MFCTIMER_DIALOG, pParent), m_list(_T("")) {
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	//m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
 
 void CMFCTimerDlg::DoDataExchange(CDataExchange* pDX)

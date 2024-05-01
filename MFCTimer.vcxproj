@@ -213,6 +213,7 @@
     <None Include="res\MFCTimer.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\icon.ico" />
     <Image Include="res\MFCTimer.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
