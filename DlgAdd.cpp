@@ -80,6 +80,7 @@ void DlgAdd::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult) {
         arr_dlgs[1]->ShowWindow(SW_SHOW);
     }
 }
+//#include "mmsystem.h"
 
 void DlgAdd::OnBnClickedOk() {
     int index = m_tab_ctl.GetCurSel();
@@ -88,12 +89,15 @@ void DlgAdd::OnBnClickedOk() {
     if (index == 0) {//闹钟
         SubDlgAlarm *here = static_cast<SubDlgAlarm *>(now);
         r = here->get_time();
+        /*PlaySound(MAKEINTRESOURCE(IDR_WAVE1), AfxGetResourceHandle(),
+                  SND_ASYNC | SND_RESOURCE | SND_NODEFAULT | SND_LOOP);
         MessageBoxEx(nullptr, r->get_time_as_str().GetString(), MB_OK, 0, 0);
-        
+        PlaySound(nullptr, AfxGetResourceHandle(), SND_PURGE);*/
+
     } else if(index==1){//倒计时
         SubDlgTimer *here = static_cast<SubDlgTimer *>(now);
         r = here->get_time();
-        //delete r;
     }
+    delete r;
     CDialogEx::OnOK();
 }

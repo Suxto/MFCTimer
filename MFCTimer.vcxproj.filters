@@ -45,6 +45,9 @@
     <ClInclude Include="Reminder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DlgRemind.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCTimer.cpp">
@@ -68,6 +71,9 @@
     <ClCompile Include="Reminder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DlgRemind.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCTimer.rc">
@@ -86,5 +92,10 @@
     <Image Include="res\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\alarm.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

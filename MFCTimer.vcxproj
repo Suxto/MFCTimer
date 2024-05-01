@@ -184,6 +184,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DlgAdd.h" />
+    <ClInclude Include="DlgRemind.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MFCTimer.h" />
     <ClInclude Include="MFCTimerDlg.h" />
@@ -196,6 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DlgAdd.cpp" />
+    <ClCompile Include="DlgRemind.cpp" />
     <ClCompile Include="MFCTimer.cpp" />
     <ClCompile Include="MFCTimerDlg.cpp" />
     <ClCompile Include="pch.cpp">
@@ -217,6 +219,9 @@
   <ItemGroup>
     <Image Include="res\icon.ico" />
     <Image Include="res\MFCTimer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="res\alarm.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
