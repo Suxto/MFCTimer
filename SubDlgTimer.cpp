@@ -109,6 +109,18 @@ void SubDlgTimer::OnBnClickedButton6() {
     modify_box1(m_second_box, -1, 0, INT_MAX);
 }
 
+inline void set_box(CEdit &box, int t) {
+    CString str;
+    str.Format(_T("%d"), t);
+    box.SetWindowTextW(str);
+}
+
+inline int get_box(CEdit &box) {
+    CString str;
+    box.GetWindowTextW(str);
+    return _ttoi(str);
+}
+
 void SubDlgTimer::OnBnClickedConv() {
     // TODO: Add your control notification handler code here
     int seconds = 0;
@@ -128,14 +140,26 @@ void SubDlgTimer::OnBnClickedConv() {
     int minute = seconds / 60;
     seconds %= 60;
 
-    str.Format(_T("%d"), hour);
-    m_hour_box.SetWindowTextW(str);
-    
-    str.Format(_T("%d"), minute);
-    m_minute_box.SetWindowTextW(str);
-    
-    str.Format(_T("%d"), seconds);
-    m_second_box.SetWindowTextW(str);
+    set_box(m_hour_box, hour);
+    set_box(m_minute_box, minute);
+    set_box(m_second_box, seconds);
+}
 
+void SubDlgTimer::set_boxs(int hour, int minute , int second) {
+    set_box(m_hour_box, hour);
+    set_box(m_minute_box, minute);
+    set_box(m_second_box, second);
+}
 
+Reminder* SubDlgTimer::get_time() { 
+    this->OnBnClickedConv();
+    // 获取当前时间
+    CTime currentTime = CTime::GetCurrentTime();
+    int hour = get_box(m_hour_box);
+    int minute = get_box(m_minute_box);
+    int second = get_box(m_second_box);
+
+    CTimeSpan span(0, hour, minute, second);
+    currentTime += span;
+    return new Reminder(currentTime); 
 }

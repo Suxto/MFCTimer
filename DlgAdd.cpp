@@ -29,6 +29,7 @@ void DlgAdd::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(DlgAdd, CDialogEx)
 ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &DlgAdd::OnTcnSelchangeTab1)
+ON_BN_CLICKED(IDOK, &DlgAdd::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 BOOL DlgAdd::OnInitDialog() {
@@ -78,4 +79,21 @@ void DlgAdd::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult) {
         arr_dlgs[0]->ShowWindow(SW_HIDE);
         arr_dlgs[1]->ShowWindow(SW_SHOW);
     }
+}
+
+void DlgAdd::OnBnClickedOk() {
+    int index = m_tab_ctl.GetCurSel();
+    CDialog *now = arr_dlgs[index];
+    Reminder *r = nullptr;
+    if (index == 0) {//闹钟
+        SubDlgAlarm *here = static_cast<SubDlgAlarm *>(now);
+        r = here->get_time();
+        MessageBoxEx(nullptr, r->get_time_as_str().GetString(), MB_OK, 0, 0);
+        
+    } else if(index==1){//倒计时
+        SubDlgTimer *here = static_cast<SubDlgTimer *>(now);
+        r = here->get_time();
+        //delete r;
+    }
+    CDialogEx::OnOK();
 }

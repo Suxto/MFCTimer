@@ -28,4 +28,5 @@ protected:
         SubDlgTimer timer_dlg;
         CDialog *arr_dlgs[2];
         afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
+        afx_msg void OnBnClickedOk();
 };

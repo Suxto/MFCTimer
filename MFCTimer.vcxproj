@@ -188,6 +188,7 @@
     <ClInclude Include="MFCTimer.h" />
     <ClInclude Include="MFCTimerDlg.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Reminder.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SubDlgAlarm.h" />
     <ClInclude Include="SubDlgTimer.h" />
@@ -203,6 +204,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Reminder.cpp" />
     <ClCompile Include="SubDlgAlarm.cpp" />
     <ClCompile Include="SubDlgTimer.cpp" />
   </ItemGroup>

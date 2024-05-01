@@ -1,6 +1,6 @@
 #pragma once
 #include "afxdialogex.h"
-
+#include "Reminder.h"
 
 // SubDlgAlarm dialog
 
@@ -34,4 +34,6 @@ protected:
         afx_msg void OnBnClickedButton5();
         afx_msg void OnBnClickedButton3();
         afx_msg void OnBnClickedButton6();
+        void set_boxs(int h, int m, int s);
+        Reminder *get_time();
 };

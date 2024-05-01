@@ -96,6 +96,18 @@ void box_filter(CEdit& box, int l, int r) {
     box.SetWindowText(strFilteredText);
 }
 
+inline void set_box(CEdit &box, int t) {
+    CString str;
+    str.Format(_T("%d"), t);
+    box.SetWindowTextW(str);
+}
+
+inline int get_box(CEdit &box) {
+    CString str;
+    box.GetWindowTextW(str);
+    return _ttoi(str);
+}
+
 void modify_box(CEdit &box, int val, int l, int r) {
     CString strText;
     box.GetWindowText(strText);
@@ -124,3 +136,26 @@ void SubDlgAlarm::OnBnClickedButton5() { modify_box(m_minute_box, -1, 0, 59); }
 void SubDlgAlarm::OnBnClickedButton3() { modify_box(m_second_box, 1, 0, 59); }
 
 void SubDlgAlarm::OnBnClickedButton6() { modify_box(m_second_box, -1, 0, 59); }
+
+void SubDlgAlarm::set_boxs(int h, int m, int s) { 
+    CString tmp;
+    
+    tmp.Format(_T("%d"), h);
+    m_hour_box.SetWindowTextW(tmp);
+
+    tmp.Format(_T("%d"), m);
+    m_minute_box.SetWindowTextW(tmp);
+
+    tmp.Format(_T("%d"), s);
+    m_second_box.SetWindowTextW(tmp);
+}
+
+
+
+Reminder *SubDlgAlarm::get_time() {
+    int hour = get_box(m_hour_box);
+    int minute = get_box(m_minute_box);
+    int second = get_box(m_second_box);
+    CTime time(2024, 5, 1, hour, minute, second);
+    return new Reminder(time);
+}
