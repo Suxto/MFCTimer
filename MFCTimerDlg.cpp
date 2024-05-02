@@ -237,7 +237,7 @@ void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
 	if (nItem >= 0) {
 		Reminder r = reminders[nItem];
 		CString list_item;
-		list_item.Format(_T("%16.16s%16.16s"), r.get_time_as_str(), r.get_content());
+		list_item.Format(_T("%16s%16s"), r.get_time_as_str(), r.get_content());
 		MessageBoxW(list_item);
 	}
 
@@ -250,7 +250,7 @@ void CMFCTimerDlg::addReminder(Reminder &r) {
     CString time = r.get_time_as_str();
     CString content = r.get_content();
     CString list_item;
-    list_item.Format(_T("%16.16s%16.16s"), time, content);
+    list_item.Format(_T("%16s%16s"), time, content);
 	int idx = m_listCtrl.GetItemCount();
     m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), list_item);
 }
@@ -268,11 +268,12 @@ void CMFCTimerDlg::removeReminder(int index) {
 }
 
 void CMFCTimerDlg::refreshReminderList() {
+	m_listCtrl.DeleteAllItems();
 	for (int i = 0; i < reminders.size(); i++) {
 		CString time = reminders[i].get_time_as_str();
 		CString content = reminders[i].get_content();
 		CString list_item;
-		list_item.Format(_T("%16.16s%16.16s"), time, content);
+		list_item.Format(_T("%16s%16s"), time, content);
 		int idx = m_listCtrl.GetItemCount();
 		m_listCtrl.InsertItem(idx, list_item);
 	}
