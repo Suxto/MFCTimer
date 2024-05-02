@@ -16,6 +16,16 @@ CString Reminder::get_time_as_str() {
     return this->remind_time.Format(_T("%H:%M:%S"));
 }
 
+CString Reminder::get_time_left_as_str() {
+    CTime now = CTime::GetCurrentTime();
+    CTimeSpan span = this->remind_time - now;
+    if (span.GetTotalSeconds() < 0) {
+        return TEXT("00:00:00");
+    } else {
+        return span.Format("%H:%M:%S");
+    }
+}
+
 CString Reminder::get_content() { return this->remind_content; }
 
 bool Reminder::get_sound() { return this->remind_sound; }

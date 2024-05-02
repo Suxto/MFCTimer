@@ -156,6 +156,8 @@ Reminder *SubDlgAlarm::get_time() {
     int hour = get_box(m_hour_box);
     int minute = get_box(m_minute_box);
     int second = get_box(m_second_box);
-    CTime time(2024, 5, 1, hour, minute, second);
+    CTime now = CTime::GetCurrentTime();
+    CTime time(now.GetYear(), now.GetMonth(), now.GetDay(), hour, minute,
+               second);
     return new Reminder(time);
 }

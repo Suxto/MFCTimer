@@ -141,14 +141,14 @@ BOOL CMFCTimerDlg::OnInitDialog()
 	m_listCtrl.ModifyStyle(0, dwStyle);
 
 	// 添加列表视图的列
-	WCHAR header[100];
+	CString header;
 	CRect rect;
 	m_listCtrl.GetClientRect(&rect);
-	wsprintf(header, L"%16.16s%16.16s", L"时间", L"提醒内容");
+        header.Format(_T("%12s%12s%16s"), TEXT("提醒时间"), TEXT("剩余时间"),
+                      TEXT("提醒内容"));
 	m_listCtrl.InsertColumn(0, header, LVCFMT_CENTER, rect.Width());
 
 	CTime time(0);
-	//addReminder(time, L"写作业");
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -210,6 +210,7 @@ void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
         // 将时间显示在静态文本中
         CString strTime = currentTime.Format(_T("%H:%M:%S"));
         m_timeDisplay.SetWindowText(strTime);
+        refreshReminderList();
     }
 
     CDialogEx::OnTimer(nIDEvent);
@@ -242,7 +243,8 @@ void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
 	if (nItem >= 0) {
 		Reminder r = reminders[nItem];
 		CString list_item;
-		list_item.Format(_T("%16s%16s"), r.get_time_as_str(), r.get_content());
+                list_item.Format(_T("%12s%12s%16s"), r.get_time_as_str(),
+                                 r.get_time_as_str(), r.get_content());
 		MessageBoxW(list_item);
 	}
 
@@ -251,13 +253,13 @@ void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CMFCTimerDlg::addReminder(Reminder &r) {
 	reminders.push_back(r);
-
-    CString time = r.get_time_as_str();
+    refreshReminderList();
+  /*  CString time = r.get_time_as_str();
     CString content = r.get_content();
     CString list_item;
-    list_item.Format(_T("%16s%16s"), time, content);
+    list_item.Format(_T("%16s%16s%16s"), time, time, content);
 	int idx = m_listCtrl.GetItemCount();
-    m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), list_item);
+    m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), list_item);*/
 }
 
 void CMFCTimerDlg::addReminder(CTime time, CString content, bool toggleSound) {
@@ -281,9 +283,10 @@ void CMFCTimerDlg::refreshReminderList() {
 	m_listCtrl.DeleteAllItems();
 	for (int i = 0; i < reminders.size(); i++) {
 		CString time = reminders[i].get_time_as_str();
+		CString time_left = reminders[i].get_time_left_as_str();
 		CString content = reminders[i].get_content();
 		CString list_item;
-		list_item.Format(_T("%16s%16s"), time, content);
+                list_item.Format(_T("%16s%16s%16s"), time, time_left, content);
 		int idx = m_listCtrl.GetItemCount();
 		m_listCtrl.InsertItem(idx, list_item);
 	}

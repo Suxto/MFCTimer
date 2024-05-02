@@ -6,7 +6,7 @@
 #ifndef Reminder_H
 #include "Reminder.h"
 #endif // !Reminder_H
-#include<vector>
+#include <vector>
 
 
 // CMFCTimerDlg dialog
