@@ -30,6 +30,7 @@ void DlgAdd::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_RADIO1, m_play_sound);
     DDX_Control(pDX, IDOK, m_bn_op);
     DDX_Control(pDX, IDOK2, m_bn_del);
+    DDX_Control(pDX, IDC_RADIO3, m_delete_after_remind);
 }
 
 
@@ -71,6 +72,9 @@ BOOL DlgAdd::OnInitDialog() {
     
     //默认播放声音为否
     ((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+    //默认提醒后删除
+    ((CButton *)GetDlgItem(IDC_RADIO3))->SetCheck(TRUE);
+
     if (selection_idx != -1) {
         CMFCTimerDlg *app =
             static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
@@ -90,6 +94,11 @@ BOOL DlgAdd::OnInitDialog() {
         if (r.get_sound()) {
             ((CButton *)GetDlgItem(IDC_RADIO1))->SetCheck(TRUE);
             ((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(FALSE);
+        }
+
+        if (!r.get_delete()) {
+            ((CButton *)GetDlgItem(IDC_RADIO3))->SetCheck(FALSE);
+            ((CButton *)GetDlgItem(IDC_RADIO4))->SetCheck(TRUE);
         }
         m_bn_op.SetWindowTextW(_TEXT("修改"));
         m_bn_del.ShowWindow(SW_SHOW);
@@ -133,7 +142,8 @@ void DlgAdd::OnBnClickedOk() {
 
     int i = m_play_sound.GetCheck();
     r->set_sound(i > 0);
-
+    i = m_delete_after_remind.GetCheck();
+    r->set_delete(i > 0);
     CMFCTimerDlg *main_wnd =
         static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
 

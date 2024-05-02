@@ -34,4 +34,5 @@ protected:
         CButton m_bn_op;
         CButton m_bn_del;
         afx_msg void OnBnClickedOk2();
+        CButton m_delete_after_remind;
 };

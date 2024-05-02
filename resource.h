@@ -30,6 +30,8 @@
 #define IDC_RADIO1                      1014
 #define IDC_RADIO2                      1015
 #define IDC_TIME_TEXT                   1016
+#define IDC_RADIO3                      1016
+#define IDC_RADIO4                      1017
 
 // Next default values for new objects
 // 

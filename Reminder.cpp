@@ -10,7 +10,9 @@ Reminder::Reminder(CTime &time, CString &content)
 
 void Reminder::set_content(CString &str) { this->remind_content = str; }
 
-void Reminder::set_sound(bool sound) { this->remind_sound = sound; }
+void Reminder::set_sound(bool sound) { this->play_sound = sound; }
+
+void Reminder::set_delete(bool del) { this->del_after_remind = del; }
 
 CString Reminder::get_time_as_str() {
     return this->remind_time.Format(_T("%H:%M:%S"));
@@ -30,4 +32,6 @@ CString Reminder::get_content() { return this->remind_content; }
 
 CTime Reminder::get_time() { return this->remind_time; }
 
-bool Reminder::get_sound() { return this->remind_sound; }
+bool Reminder::get_sound() { return this->play_sound; }
+
+bool Reminder::get_delete() { return this->del_after_remind; }
