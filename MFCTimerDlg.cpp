@@ -203,5 +203,5 @@ void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
 
 void CMFCTimerDlg::OnBnClickedAddTimer() {
     DlgAdd dlg;
-    INT_PTR resp = dlg.DoModal();
+    INT_PTR resp = dlg.DoModal();    
 }

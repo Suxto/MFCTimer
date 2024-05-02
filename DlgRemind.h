@@ -1,6 +1,6 @@
 #pragma once
 #include "afxdialogex.h"
-
+#include "Reminder.h"
 
 // DlgRemind dialog
 
@@ -11,7 +11,6 @@ class DlgRemind : public CDialogEx
 public:
 	DlgRemind(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~DlgRemind();
-
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DIALOG4 };
@@ -19,6 +18,13 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
+	virtual BOOL OnInitDialog();
 	DECLARE_MESSAGE_MAP()
+
+public:
+  CEdit m_remind_content;
+  CStatic m_time_text;
+  afx_msg void OnBnClickedOk();
+  Reminder reminder;
+  void set_reminder(Reminder &r);
 };

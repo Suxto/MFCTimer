@@ -5,7 +5,8 @@
 #include "MFCTimer.h"
 #include "afxdialogex.h"
 #include "DlgAdd.h"
-
+#include "Reminder.h"
+#include "DlgRemind.h"
 // DlgAdd dialog
 
 IMPLEMENT_DYNAMIC(DlgAdd, CDialogEx)
@@ -23,7 +24,9 @@ DlgAdd::~DlgAdd()
 void DlgAdd::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
-    //DDX_Control(pDX, IDC_TAB1, m_tab_ctl);
+    // DDX_Control(pDX, IDC_TAB1, m_tab_ctl);
+    DDX_Control(pDX, IDC_EDIT1, m_remind_content);
+    DDX_Control(pDX, IDC_RADIO1, m_play_sound);
 }
 
 
@@ -61,7 +64,9 @@ BOOL DlgAdd::OnInitDialog() {
     arr_dlgs[1] = &timer_dlg;
     arr_dlgs[1]->SetWindowPos(&wndTop, nX, nY, nXc, nYc, SWP_HIDEWINDOW);
     arr_dlgs[1]->ShowWindow(SW_HIDE);
-
+    
+    //默认播放声音为否
+    ((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE); 
     return TRUE; // return TRUE  unless you set the focus to a control
 }
 
@@ -80,7 +85,7 @@ void DlgAdd::OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult) {
         arr_dlgs[1]->ShowWindow(SW_SHOW);
     }
 }
-//#include "mmsystem.h"
+
 
 void DlgAdd::OnBnClickedOk() {
     int index = m_tab_ctl.GetCurSel();
@@ -89,15 +94,25 @@ void DlgAdd::OnBnClickedOk() {
     if (index == 0) {//闹钟
         SubDlgAlarm *here = static_cast<SubDlgAlarm *>(now);
         r = here->get_time();
-        /*PlaySound(MAKEINTRESOURCE(IDR_WAVE1), AfxGetResourceHandle(),
-                  SND_ASYNC | SND_RESOURCE | SND_NODEFAULT | SND_LOOP);
-        MessageBoxEx(nullptr, r->get_time_as_str().GetString(), MB_OK, 0, 0);
-        PlaySound(nullptr, AfxGetResourceHandle(), SND_PURGE);*/
+        
+        //MessageBoxEx(nullptr, r->get_time_as_str().GetString(), MB_OK, 0, 0);
+        
 
-    } else if(index==1){//倒计时
+    } else if(index == 1){//倒计时
         SubDlgTimer *here = static_cast<SubDlgTimer *>(now);
         r = here->get_time();
     }
+    CString remind_text;
+    m_remind_content.GetWindowTextW(remind_text);
+    r->set_content(remind_text);
+
+    int i = m_play_sound.GetCheck();
+    r->set_sound(i > 0);
+
+    DlgRemind rmd;
+    rmd.set_reminder(*r);
+    rmd.DoModal();
+
     delete r;
     CDialogEx::OnOK();
 }

@@ -23,6 +23,8 @@ protected:
 	virtual BOOL OnInitDialog();
 	DECLARE_MESSAGE_MAP()
       public:
+        CEdit m_remind_content;
+        CButton m_play_sound;
         CTabCtrl m_tab_ctl;
         SubDlgAlarm alarm_dlg;
         SubDlgTimer timer_dlg;
