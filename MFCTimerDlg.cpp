@@ -72,7 +72,9 @@ BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
         ON_BN_CLICKED(IDC_BUTTON1, &CMFCTimerDlg::OnBnClickedAddTimer)
         ON_BN_CLICKED(IDC_BUTTON2, &CMFCTimerDlg::OnBnClickedClearAllTimer)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
-END_MESSAGE_MAP()
+        ON_BN_CLICKED(IDC_BUTTON3, &CMFCTimerDlg::OnBnClickedSaveFile)
+    ON_BN_CLICKED(IDC_BUTTON4, &CMFCTimerDlg::OnBnClickedReadFile)
+    END_MESSAGE_MAP()
 
 
 // CMFCTimerDlg message handlers
@@ -302,4 +304,43 @@ void CMFCTimerDlg::refreshReminderList() {
         int idx = m_listCtrl.GetItemCount();
         m_listCtrl.InsertItem(idx, list_item);
     }
+}
+
+
+void CMFCTimerDlg::OnBnClickedSaveFile() {
+    CFileDialog fileDlg(FALSE, _T("dat"), nullptr, OFN_OVERWRITEPROMPT,
+                        _T("Data Files (*.dat)|*.dat|"));
+    if (fileDlg.DoModal() == IDOK) {
+        CFile file(fileDlg.GetPathName(), CFile::modeCreate | CFile::modeWrite);
+        CArchive ar(&file, CArchive::store);
+
+        int count = static_cast<int>(reminders.size());
+        ar << count;
+        for (const auto &reminder : reminders) {
+            ar << reminder;
+        }
+
+        ar.Close();
+        file.Close();
+    } 
+}
+
+void CMFCTimerDlg::OnBnClickedReadFile() {
+    CFileDialog fileDlg(TRUE, _T("dat"), nullptr, OFN_OVERWRITEPROMPT,
+                        _T("Data Files (*.dat)|*.dat|"));
+    if (fileDlg.DoModal() == IDOK) {
+        CFile file(fileDlg.GetPathName(), CFile::modeRead);
+        CArchive ar(&file, CArchive::load);
+
+        int count;
+        ar >> count;
+
+        reminders.resize(count);
+        for (auto &reminder : reminders) {
+            ar >> reminder;
+        }
+
+        ar.Close();
+        file.Close();
+    } 
 }

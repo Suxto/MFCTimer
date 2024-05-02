@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Reminder.h"
+#include <vector>
 
 Reminder::Reminder() {}
 
@@ -35,3 +36,27 @@ CTime Reminder::get_time() { return this->remind_time; }
 bool Reminder::get_sound() { return this->play_sound; }
 
 bool Reminder::get_delete() { return this->del_after_remind; }
+
+CArchive &operator<<(CArchive &ar, const Reminder &r) {
+    if (ar.IsStoring()) {
+        ar << r.remind_time;
+        ar << r.remind_content;
+        ar << r.play_sound;
+        ar << r.del_after_remind;
+    }
+    return ar;
+}
+
+CArchive &operator>>(CArchive &ar, Reminder &r) {
+    if (!ar.IsStoring()) {
+        ar >> r.remind_time;
+        ar >> r.remind_content;
+        ar >> r.play_sound;
+        ar >> r.del_after_remind;
+    }
+    CTime now = CTime::GetCurrentTime();
+    CTime new_remind_time = CTime(
+        now.GetYear(), now.GetMonth(), now.GetDay(), r.remind_time.GetHour(),
+        r.remind_time.GetMinute(), r.remind_time.GetSecond());
+    return ar;
+}

@@ -46,4 +46,6 @@ protected:
         afx_msg void OnBnClickedAddTimer();
 		afx_msg void OnBnClickedClearAllTimer();
 		afx_msg void OnListClick(NMHDR* pNMHDR, LRESULT* pResult);
+        afx_msg void OnBnClickedSaveFile();
+                afx_msg void OnBnClickedReadFile();
 };

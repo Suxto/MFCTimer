@@ -18,4 +18,7 @@ class Reminder {
     CTime get_time();
     bool get_sound();
     bool get_delete();
+    friend CArchive &operator<<(CArchive &ar, const Reminder &r);
+    friend CArchive &operator>>(CArchive &ar, Reminder &r);
+    
 };
