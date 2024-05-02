@@ -144,6 +144,7 @@ void DlgAdd::OnBnClickedOk() {
     r->set_sound(i > 0);
     i = m_delete_after_remind.GetCheck();
     r->set_delete(i > 0);
+
     CMFCTimerDlg *main_wnd =
         static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
 

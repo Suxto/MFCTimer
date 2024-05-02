@@ -19,6 +19,7 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
+    virtual void PostNcDestroy();
 	DECLARE_MESSAGE_MAP()
 
 public:
@@ -26,5 +27,6 @@ public:
   CStatic m_time_text;
   afx_msg void OnBnClickedOk();
   Reminder reminder;
-  void set_reminder(Reminder &r);
+  int idx;
+  void set_reminder(int idx, Reminder &r);
 };

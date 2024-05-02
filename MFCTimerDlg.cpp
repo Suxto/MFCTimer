@@ -8,6 +8,7 @@
 #include "MFCTimerDlg.h"
 #include "afxdialogex.h"
 #include "DlgAdd.h"
+#include "DlgRemind.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -211,6 +212,20 @@ void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
         CString strTime = currentTime.Format(_T("%H:%M:%S"));
         m_timeDisplay.SetWindowText(strTime);
         refreshReminderList();
+
+        for (int i = 0; i < reminders.size();i++) {
+            auto &r = reminders[i];
+            CTime time = r.get_time();
+            CTimeSpan span = time - currentTime;
+            if (span == 0) {
+                DlgRemind *dlg=new DlgRemind;
+                dlg->set_reminder(i, r);
+                dlg->Create(IDD_DIALOG4, this);
+                dlg->ShowWindow(SW_SHOW);
+            }
+
+        }
+
     }
 
     CDialogEx::OnTimer(nIDEvent);
@@ -257,12 +272,6 @@ void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
 void CMFCTimerDlg::addReminder(Reminder &r) {
     reminders.push_back(r);
     refreshReminderList();
-  /*  CString time = r.get_time_as_str();
-    CString content = r.get_content();
-    CString list_item;
-    list_item.Format(_T("%16s%16s%16s"), time, time, content);
-    int idx = m_listCtrl.GetItemCount();
-    m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), list_item);*/
 }
 
 void CMFCTimerDlg::addReminder(CTime time, CString content, bool toggleSound) {

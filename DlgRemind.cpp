@@ -6,6 +6,7 @@
 #include "afxdialogex.h"
 #include "mmsystem.h"
 #include "DlgRemind.h"
+#include "MFCTimerDlg.h"
 
 // DlgRemind dialog
 
@@ -20,8 +21,9 @@ DlgRemind::DlgRemind(CWnd *pParent /*= nullptr*/)
 DlgRemind::~DlgRemind()
 {}
 
-void DlgRemind::set_reminder(Reminder &r) {
+void DlgRemind::set_reminder(int idx, Reminder &r) {
     this->reminder = r;
+    this->idx = idx;
 }
 
 void DlgRemind::DoDataExchange(CDataExchange* pDX)
@@ -66,6 +68,12 @@ BOOL DlgRemind::OnInitDialog() {
 }
 
 
+void DlgRemind::PostNcDestroy() {
+    CDialogEx::PostNcDestroy();
+    delete this;
+}
+
+
 BEGIN_MESSAGE_MAP(DlgRemind, CDialogEx)
 ON_BN_CLICKED(IDOK, &DlgRemind::OnBnClickedOk)
 END_MESSAGE_MAP()
@@ -75,8 +83,11 @@ END_MESSAGE_MAP()
 
 void DlgRemind::OnBnClickedOk() {
     // TODO: Add your control notification handler code here
-
     PlaySound(nullptr, AfxGetResourceHandle(), SND_PURGE);
-
+    if (reminder.get_delete()) {
+        CMFCTimerDlg *app =
+            static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
+        app->removeReminder(idx);
+    }
     CDialogEx::OnOK();
 }
