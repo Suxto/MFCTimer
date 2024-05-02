@@ -28,4 +28,6 @@ CString Reminder::get_time_left_as_str() {
 
 CString Reminder::get_content() { return this->remind_content; }
 
+CTime Reminder::get_time() { return this->remind_time; }
+
 bool Reminder::get_sound() { return this->remind_sound; }

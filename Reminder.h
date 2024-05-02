@@ -13,5 +13,6 @@ class Reminder {
     CString get_time_as_str();
     CString get_time_left_as_str();
     CString get_content();
+    CTime get_time();
     bool get_sound();
 };

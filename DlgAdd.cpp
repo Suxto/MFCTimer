@@ -18,9 +18,9 @@ DlgAdd::DlgAdd(CWnd* pParent /*=nullptr*/)
   
 }
 
-DlgAdd::~DlgAdd()
-{
-}
+DlgAdd::~DlgAdd(){}
+
+void DlgAdd::set_idx(int idx) { this->selection_idx = idx; }
 
 void DlgAdd::DoDataExchange(CDataExchange* pDX)
 {
@@ -28,12 +28,15 @@ void DlgAdd::DoDataExchange(CDataExchange* pDX)
     // DDX_Control(pDX, IDC_TAB1, m_tab_ctl);
     DDX_Control(pDX, IDC_EDIT1, m_remind_content);
     DDX_Control(pDX, IDC_RADIO1, m_play_sound);
+    DDX_Control(pDX, IDOK, m_bn_op);
+    DDX_Control(pDX, IDOK2, m_bn_del);
 }
 
 
 BEGIN_MESSAGE_MAP(DlgAdd, CDialogEx)
 ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &DlgAdd::OnTcnSelchangeTab1)
 ON_BN_CLICKED(IDOK, &DlgAdd::OnBnClickedOk)
+ON_BN_CLICKED(IDOK2, &DlgAdd::OnBnClickedOk2)
 END_MESSAGE_MAP()
 
 BOOL DlgAdd::OnInitDialog() {
@@ -67,7 +70,30 @@ BOOL DlgAdd::OnInitDialog() {
     arr_dlgs[1]->ShowWindow(SW_HIDE);
     
     //默认播放声音为否
-    ((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE); 
+    ((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(TRUE);
+    if (selection_idx != -1) {
+        CMFCTimerDlg *app =
+            static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
+
+        Reminder &r = app->reminders[selection_idx];
+        m_remind_content.SetWindowTextW(r.get_content());
+        CTime time = r.get_time();
+        CTimeSpan span = time - CTime::GetCurrentTime();
+        alarm_dlg.set_boxs(time.GetHour(), time.GetMinute(), time.GetSecond());
+
+        if (span.GetTotalSeconds() > 0)
+            timer_dlg.set_boxs(span.GetHours(), span.GetHours(),
+                               span.GetSeconds());
+        else
+            timer_dlg.set_boxs(0, 0, 0);
+
+        if (r.get_sound()) {
+            ((CButton *)GetDlgItem(IDC_RADIO1))->SetCheck(TRUE);
+            ((CButton *)GetDlgItem(IDC_RADIO2))->SetCheck(FALSE);
+        }
+        m_bn_op.SetWindowTextW(_TEXT("修改"));
+        m_bn_del.ShowWindow(SW_SHOW);
+    }
     return TRUE; // return TRUE  unless you set the focus to a control
 }
 
@@ -97,8 +123,6 @@ void DlgAdd::OnBnClickedOk() {
         r = here->get_time();
         
         //MessageBoxEx(nullptr, r->get_time_as_str().GetString(), MB_OK, 0, 0);
-        
-
     } else if(index == 1){//倒计时
         SubDlgTimer *here = static_cast<SubDlgTimer *>(now);
         r = here->get_time();
@@ -113,11 +137,21 @@ void DlgAdd::OnBnClickedOk() {
     CMFCTimerDlg *main_wnd =
         static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
 
-    main_wnd->addReminder(*r);
-  /*  DlgRemind rmd;
-    rmd.set_reminder(*r);
-    rmd.DoModal();*/
+    if (r != nullptr) {
+        if (selection_idx == -1) {
+            main_wnd->addReminder(*r);
+        } else {
+            main_wnd->reminders[selection_idx] = *r;
+        }
+        delete r;
+    }
 
-    delete r;
+    CDialogEx::OnOK();
+}
+
+void DlgAdd::OnBnClickedOk2() {
+    CMFCTimerDlg *main_wnd =
+        static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
+    main_wnd->removeReminder(selection_idx);
     CDialogEx::OnOK();
 }

@@ -7,11 +7,12 @@
 
 class DlgAdd : public CDialogEx {
 	DECLARE_DYNAMIC(DlgAdd)
+    int selection_idx = -1;
 
-public:
+  public:
 	DlgAdd(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~DlgAdd();
-
+    void set_idx(int idx);
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_DIALOG1 };
@@ -30,4 +31,7 @@ protected:
         CDialog *arr_dlgs[2];
         afx_msg void OnTcnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
         afx_msg void OnBnClickedOk();
+        CButton m_bn_op;
+        CButton m_bn_del;
+        afx_msg void OnBnClickedOk2();
 };

@@ -19,19 +19,19 @@
 class CAboutDlg : public CDialogEx
 {
 public:
-	CAboutDlg();
+    CAboutDlg();
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_ABOUTBOX };
+    enum { IDD = IDD_ABOUTBOX };
 #endif
 
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+    protected:
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 // Implementation
 protected:
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -40,7 +40,7 @@ CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialogEx::DoDataExchange(pDX);
+    CDialogEx::DoDataExchange(pDX);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
@@ -52,9 +52,9 @@ END_MESSAGE_MAP()
 
 
 CMFCTimerDlg::CMFCTimerDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_MFCTIMER_DIALOG, pParent) {
-	//m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
+    : CDialogEx(IDD_MFCTIMER_DIALOG, pParent) {
+    //m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+    m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
 
 void CMFCTimerDlg::DoDataExchange(CDataExchange* pDX)
@@ -64,27 +64,27 @@ void CMFCTimerDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
-	ON_WM_SYSCOMMAND()
-	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()
+    ON_WM_SYSCOMMAND()
+    ON_WM_PAINT()
+    ON_WM_QUERYDRAGICON()
         ON_WM_TIMER()
         ON_BN_CLICKED(IDC_BUTTON1, &CMFCTimerDlg::OnBnClickedAddTimer)
-		ON_BN_CLICKED(IDC_BUTTON2, &CMFCTimerDlg::OnBnClickedClearAllTimer)
-	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
+        ON_BN_CLICKED(IDC_BUTTON2, &CMFCTimerDlg::OnBnClickedClearAllTimer)
+    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
 END_MESSAGE_MAP()
 
 
 // CMFCTimerDlg message handlers
 BOOL CMFCTimerDlg::OnInitDialog()
 {
-	CDialogEx::OnInitDialog();
+    CDialogEx::OnInitDialog();
     
-	
-	 //IDM_ABOUTBOX must be in the system command range.
-	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
-	ASSERT(IDM_ABOUTBOX < 0xF000);
+    
+     //IDM_ABOUTBOX must be in the system command range.
+    ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
+    ASSERT(IDM_ABOUTBOX < 0xF000);
 
-	HFONT timeFont = ::CreateFont(80,     // 字体的高度
+    HFONT timeFont = ::CreateFont(80,     // 字体的高度
                                0,         // 字体的宽度
                                0,         // 字体的倾斜
                                0,         // 字体的倾斜的偏移量
@@ -110,60 +110,60 @@ BOOL CMFCTimerDlg::OnInitDialog()
     m_timeDisplay.SetWindowText(strTime);
     m_timeDisplay.SetFont(pFont);
 
-	//设置定时器
+    //设置定时器
     CWnd::SetTimer(1, 1000, nullptr);
 
-	CMenu* pSysMenu = GetSystemMenu(FALSE);
-	if (pSysMenu != nullptr)
-	{
-		BOOL bNameValid;
-		CString strAboutMenu;
-		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
-		ASSERT(bNameValid);
-		if (!strAboutMenu.IsEmpty())
-		{
-			pSysMenu->AppendMenu(MF_SEPARATOR);
-			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
-		}
-	}
+    CMenu* pSysMenu = GetSystemMenu(FALSE);
+    if (pSysMenu != nullptr)
+    {
+        BOOL bNameValid;
+        CString strAboutMenu;
+        bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
+        ASSERT(bNameValid);
+        if (!strAboutMenu.IsEmpty())
+        {
+            pSysMenu->AppendMenu(MF_SEPARATOR);
+            pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
+        }
+    }
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
-	SetIcon(m_hIcon, TRUE);			// Set big icon
-	SetIcon(m_hIcon, FALSE);		// Set small icon
+    // Set the icon for this dialog.  The framework does this automatically
+    //  when the application's main window is not a dialog
+    SetIcon(m_hIcon, TRUE);			// Set big icon
+    SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
-	// 获取列表视图控件的指针
-	m_listCtrl.SubclassDlgItem(IDC_LIST1, this);
+    // TODO: Add extra initialization here
+    // 获取列表视图控件的指针
+    m_listCtrl.SubclassDlgItem(IDC_LIST1, this);
 
-	// 设置列表视图控件的样式
-	DWORD dwStyle = LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS;
-	m_listCtrl.ModifyStyle(0, dwStyle);
+    // 设置列表视图控件的样式
+    DWORD dwStyle = LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS;
+    m_listCtrl.ModifyStyle(0, dwStyle);
 
-	// 添加列表视图的列
-	CString header;
-	CRect rect;
-	m_listCtrl.GetClientRect(&rect);
+    // 添加列表视图的列
+    CString header;
+    CRect rect;
+    m_listCtrl.GetClientRect(&rect);
         header.Format(_T("%12s%12s%16s"), TEXT("提醒时间"), TEXT("剩余时间"),
                       TEXT("提醒内容"));
-	m_listCtrl.InsertColumn(0, header, LVCFMT_CENTER, rect.Width());
+    m_listCtrl.InsertColumn(0, header, LVCFMT_CENTER, rect.Width());
 
-	CTime time(0);
+    CTime time(0);
 
-	return TRUE;  // return TRUE  unless you set the focus to a control
+    return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
 void CMFCTimerDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
-	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
-	{
-		CAboutDlg dlgAbout;
-		dlgAbout.DoModal();
-	}
-	else
-	{
-		CDialogEx::OnSysCommand(nID, lParam);
-	}
+    if ((nID & 0xFFF0) == IDM_ABOUTBOX)
+    {
+        CAboutDlg dlgAbout;
+        dlgAbout.DoModal();
+    }
+    else
+    {
+        CDialogEx::OnSysCommand(nID, lParam);
+    }
 }
 
 // If you add a minimize button to your dialog, you will need the code below
@@ -172,34 +172,34 @@ void CMFCTimerDlg::OnSysCommand(UINT nID, LPARAM lParam)
 
 void CMFCTimerDlg::OnPaint()
 {
-	if (IsIconic())
-	{
-		CPaintDC dc(this); // device context for painting
+    if (IsIconic())
+    {
+        CPaintDC dc(this); // device context for painting
 
-		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
+        SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Center icon in client rectangle
-		int cxIcon = GetSystemMetrics(SM_CXICON);
-		int cyIcon = GetSystemMetrics(SM_CYICON);
-		CRect rect;
-		GetClientRect(&rect);
-		int x = (rect.Width() - cxIcon + 1) / 2;
-		int y = (rect.Height() - cyIcon + 1) / 2;
+        // Center icon in client rectangle
+        int cxIcon = GetSystemMetrics(SM_CXICON);
+        int cyIcon = GetSystemMetrics(SM_CYICON);
+        CRect rect;
+        GetClientRect(&rect);
+        int x = (rect.Width() - cxIcon + 1) / 2;
+        int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// Draw the icon
-		dc.DrawIcon(x, y, m_hIcon);
-	}
-	else
-	{
-		CDialogEx::OnPaint();
-	}
+        // Draw the icon
+        dc.DrawIcon(x, y, m_hIcon);
+    }
+    else
+    {
+        CDialogEx::OnPaint();
+    }
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
 //  the minimized window.
 HCURSOR CMFCTimerDlg::OnQueryDragIcon()
 {
-	return static_cast<HCURSOR>(m_hIcon);
+    return static_cast<HCURSOR>(m_hIcon);
 }
 
 void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
@@ -224,70 +224,73 @@ void CMFCTimerDlg::OnBnClickedAddTimer() {
 }
 
 void CMFCTimerDlg::OnBnClickedClearAllTimer() {
-	clearReminder();
+    clearReminder();
 }
 
 
 void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+    NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 
-	// 获取点击的行和列索引
-	int nItem = pNMListView->iItem;
-	//pNMListView->
-	int nSubItem = pNMListView->iSubItem;
+    // 获取点击的行和列索引
+    int nItem = pNMListView->iItem;
+    //pNMListView->
+    int nSubItem = pNMListView->iSubItem;
 
-	// 执行你的处理逻辑
-	// ...
+    // 执行你的处理逻辑
+    // ...
 
-	if (nItem >= 0) {
-		Reminder r = reminders[nItem];
-		CString list_item;
+    if (nItem >= 0) {
+        /*Reminder r = reminders[nItem];
+        CString list_item;
                 list_item.Format(_T("%12s%12s%16s"), r.get_time_as_str(),
                                  r.get_time_as_str(), r.get_content());
-		MessageBoxW(list_item);
-	}
+        MessageBoxW(list_item);*/
+        DlgAdd dlg;
+        dlg.set_idx(nItem);
+        dlg.DoModal();
+    }
 
-	*pResult = 0;
+    *pResult = 0;
 }
 
 void CMFCTimerDlg::addReminder(Reminder &r) {
-	reminders.push_back(r);
+    reminders.push_back(r);
     refreshReminderList();
   /*  CString time = r.get_time_as_str();
     CString content = r.get_content();
     CString list_item;
     list_item.Format(_T("%16s%16s%16s"), time, time, content);
-	int idx = m_listCtrl.GetItemCount();
+    int idx = m_listCtrl.GetItemCount();
     m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), list_item);*/
 }
 
 void CMFCTimerDlg::addReminder(CTime time, CString content, bool toggleSound) {
-	Reminder r(time);
-	r.set_content(content);
-	r.set_sound(toggleSound);
-	addReminder(r);
+    Reminder r(time);
+    r.set_content(content);
+    r.set_sound(toggleSound);
+    addReminder(r);
 }
 
 void CMFCTimerDlg::removeReminder(int index) {
-	reminders.erase(reminders.begin() + index);
-	m_listCtrl.DeleteItem(index);
+    reminders.erase(reminders.begin() + index);
+    m_listCtrl.DeleteItem(index);
 }
 
 void CMFCTimerDlg::clearReminder() {
-	reminders.clear();
-	m_listCtrl.DeleteAllItems();
+    reminders.clear();
+    m_listCtrl.DeleteAllItems();
 }
 
 void CMFCTimerDlg::refreshReminderList() {
-	m_listCtrl.DeleteAllItems();
-	for (int i = 0; i < reminders.size(); i++) {
-		CString time = reminders[i].get_time_as_str();
-		CString time_left = reminders[i].get_time_left_as_str();
-		CString content = reminders[i].get_content();
-		CString list_item;
+    m_listCtrl.DeleteAllItems();
+    for (int i = 0; i < reminders.size(); i++) {
+        CString time = reminders[i].get_time_as_str();
+        CString time_left = reminders[i].get_time_left_as_str();
+        CString content = reminders[i].get_content();
+        CString list_item;
                 list_item.Format(_T("%16s%16s%16s"), time, time_left, content);
-		int idx = m_listCtrl.GetItemCount();
-		m_listCtrl.InsertItem(idx, list_item);
-	}
+        int idx = m_listCtrl.GetItemCount();
+        m_listCtrl.InsertItem(idx, list_item);
+    }
 }
