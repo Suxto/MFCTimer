@@ -247,7 +247,7 @@ void CMFCTimerDlg::addReminder(Reminder &r) {
     CString time = r.get_time_as_str();
     CString content = r.get_content();
 	WCHAR str[100];
-	wsprintf(str, L"%16.16s%16.16s", time, content);
+	wsprintf(str, _T("%16.16s%16.16s"), time, content);
 	int idx = m_listCtrl.GetItemCount();
 	m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), str);
 }
