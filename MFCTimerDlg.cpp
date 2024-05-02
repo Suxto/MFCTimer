@@ -52,7 +52,7 @@ END_MESSAGE_MAP()
 
 
 CMFCTimerDlg::CMFCTimerDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_MFCTIMER_DIALOG, pParent), m_list(_T("")) {
+	: CDialogEx(IDD_MFCTIMER_DIALOG, pParent) {
 	//m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_hIcon = AfxGetApp()->LoadIcon(IDI_ICON1);
 }
@@ -61,8 +61,6 @@ void CMFCTimerDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_TIME_DISPLAY, m_timeDisplay);
-    DDX_LBString(pDX, IDC_LIST1, m_list);
-    DDX_Control(pDX, IDC_LIST1, m_list_ctl);
 }
 
 BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
@@ -71,7 +69,8 @@ BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
         ON_WM_TIMER()
         ON_BN_CLICKED(IDC_BUTTON1, &CMFCTimerDlg::OnBnClickedAddTimer)
-        END_MESSAGE_MAP()
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
+END_MESSAGE_MAP()
 
 
 // CMFCTimerDlg message handlers
@@ -133,6 +132,22 @@ BOOL CMFCTimerDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	// 获取列表视图控件的指针
+	m_listCtrl.SubclassDlgItem(IDC_LIST1, this);
+
+	// 设置列表视图控件的样式
+	DWORD dwStyle = LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS;
+	m_listCtrl.ModifyStyle(0, dwStyle);
+
+	// 添加列表视图的列
+	WCHAR header[100];
+	CRect rect;
+	m_listCtrl.GetClientRect(&rect);
+	wsprintf(header, L"%16.16s%16.16s", L"时间", L"提醒内容");
+	m_listCtrl.InsertColumn(0, header, LVCFMT_CENTER, rect.Width());
+
+	CTime time(0);
+	//addReminder(time, L"写作业");
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -204,4 +219,35 @@ void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
 void CMFCTimerDlg::OnBnClickedAddTimer() {
     DlgAdd dlg;
     INT_PTR resp = dlg.DoModal();    
+}
+
+
+void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+
+	// 获取点击的行和列索引
+	int nItem = pNMListView->iItem;
+	//pNMListView->
+	int nSubItem = pNMListView->iSubItem;
+
+	// 执行你的处理逻辑
+	// ...
+
+	if (nItem >= 0) {
+		char str[100];
+		sprintf_s(str, "row: %d, column: %d", nItem, nSubItem);
+		MessageBoxA(NULL, str, 0, 0);
+	}
+
+	*pResult = 0;
+}
+
+void CMFCTimerDlg::addReminder(Reminder &r) {
+    CString time = r.get_time_as_str();
+    CString content = r.get_content();
+	WCHAR str[100];
+	wsprintf(str, L"%16.16s%16.16s", time, content);
+	int idx = m_listCtrl.GetItemCount();
+	m_listCtrl.InsertItem(m_listCtrl.GetItemCount(), str);
 }

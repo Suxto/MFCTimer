@@ -19,8 +19,8 @@ class CMFCTimerApp : public CWinApp
 {
 public:
 	CMFCTimerApp();
-
-// Overrides
+    //CMFCTimerApp *pMain_fram;
+    // Overrides
 public:
 	virtual BOOL InitInstance();
 

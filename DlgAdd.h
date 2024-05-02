@@ -3,7 +3,6 @@
 #include "afxcmn.h"
 #include "SubDlgAlarm.h"
 #include "SubDlgTimer.h"
-
 // DlgAdd dialog
 
 class DlgAdd : public CDialogEx {

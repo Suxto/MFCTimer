@@ -7,6 +7,7 @@
 #include "DlgAdd.h"
 #include "Reminder.h"
 #include "DlgRemind.h"
+#include "MFCTimerDlg.h"
 // DlgAdd dialog
 
 IMPLEMENT_DYNAMIC(DlgAdd, CDialogEx)
@@ -109,9 +110,13 @@ void DlgAdd::OnBnClickedOk() {
     int i = m_play_sound.GetCheck();
     r->set_sound(i > 0);
 
-    DlgRemind rmd;
+    CMFCTimerDlg *main_wnd =
+        static_cast<CMFCTimerDlg *>(AfxGetApp()->m_pMainWnd);
+
+    main_wnd->addReminder(*r);
+  /*  DlgRemind rmd;
     rmd.set_reminder(*r);
-    rmd.DoModal();
+    rmd.DoModal();*/
 
     delete r;
     CDialogEx::OnOK();
