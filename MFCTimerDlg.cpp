@@ -69,6 +69,7 @@ BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
         ON_WM_TIMER()
         ON_BN_CLICKED(IDC_BUTTON1, &CMFCTimerDlg::OnBnClickedAddTimer)
+		ON_BN_CLICKED(IDC_BUTTON2, &CMFCTimerDlg::OnBnClickedClearAllTimer)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
 END_MESSAGE_MAP()
 
@@ -221,6 +222,10 @@ void CMFCTimerDlg::OnBnClickedAddTimer() {
     INT_PTR resp = dlg.DoModal();    
 }
 
+void CMFCTimerDlg::OnBnClickedClearAllTimer() {
+	clearReminder();
+}
+
 
 void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
@@ -265,6 +270,11 @@ void CMFCTimerDlg::addReminder(CTime time, CString content, bool toggleSound) {
 void CMFCTimerDlg::removeReminder(int index) {
 	reminders.erase(reminders.begin() + index);
 	m_listCtrl.DeleteItem(index);
+}
+
+void CMFCTimerDlg::clearReminder() {
+	reminders.clear();
+	m_listCtrl.DeleteAllItems();
 }
 
 void CMFCTimerDlg::refreshReminderList() {

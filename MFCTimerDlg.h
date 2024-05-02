@@ -18,6 +18,7 @@ public:
 	void addReminder(Reminder &r);
 	void addReminder(CTime time, CString content, bool toggleSound);
 	void removeReminder(int index);
+	void clearReminder();
 	void refreshReminderList();
 // Dialog Data
 #ifdef AFX_DESIGN_TIME
@@ -43,5 +44,6 @@ protected:
         CStatic m_timeDisplay;
         CListCtrl m_listCtrl;
         afx_msg void OnBnClickedAddTimer();
+		afx_msg void OnBnClickedClearAllTimer();
 		afx_msg void OnListClick(NMHDR* pNMHDR, LRESULT* pResult);
 };
