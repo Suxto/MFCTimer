@@ -75,7 +75,7 @@ BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
         ON_BN_CLICKED(IDC_BUTTON3, &CMFCTimerDlg::OnBnClickedSaveFile)
     ON_BN_CLICKED(IDC_BUTTON4, &CMFCTimerDlg::OnBnClickedReadFile)
-        ON_CBN_SELCHANGE(IDC_COMBO1, &CMFCTimerDlg::OnCbnSelchangeCombo1)
+        ON_CBN_SELCHANGE(IDC_COMBO1, &CMFCTimerDlg::OnCbnSelchangeSortType)
         END_MESSAGE_MAP()
 
 
@@ -363,9 +363,10 @@ void CMFCTimerDlg::OnBnClickedReadFile() {
         ar.Close();
         file.Close();
     } 
+    OnCbnSelchangeSortType();
 }
 
-void CMFCTimerDlg::OnCbnSelchangeCombo1() {
+void CMFCTimerDlg::OnCbnSelchangeSortType() {
     this->sort_type = m_box_sort_type.GetCurSel();
     if (sort_type == 0) {
         sort_by_id();

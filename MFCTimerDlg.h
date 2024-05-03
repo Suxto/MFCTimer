@@ -51,6 +51,6 @@ protected:
 		afx_msg void OnListClick(NMHDR* pNMHDR, LRESULT* pResult);
         afx_msg void OnBnClickedSaveFile();
                 afx_msg void OnBnClickedReadFile();
-        afx_msg void OnCbnSelchangeCombo1();
+        afx_msg void OnCbnSelchangeSortType();
                 CComboBox m_box_sort_type;
 };
