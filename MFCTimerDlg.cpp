@@ -65,6 +65,19 @@ void CMFCTimerDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_COMBO1, m_box_sort_type);
 }
 
+LRESULT CMFCTimerDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
+   /* if (message == WM_PAINT) {
+        CRect rect;
+        m_listCtrl.GetWindowRect(&rect);
+        ScreenToClient(&rect);
+        InvalidateRect(&rect, FALSE);
+        return Default();
+    }*/
+
+
+    return CDialogEx::WindowProc(message, wParam, lParam);
+}
+
 BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
     ON_WM_SYSCOMMAND()
     ON_WM_PAINT()
@@ -232,20 +245,21 @@ void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
         // 将时间显示在静态文本中
         CString strTime = currentTime.Format(_T("%H:%M:%S"));
         m_timeDisplay.SetWindowText(strTime);
+
         refreshReminderList();
 
-        for (int i = 0; i < reminders.size();i++) {
+      /*  for (int i = 0; i < reminders.size();i++) {
             auto &r = reminders[i];
             CTime time = r.get_time();
             CTimeSpan span = time - currentTime;
             if (span == 0) {
-                DlgRemind *dlg=new DlgRemind;
+                DlgRemind *dlg = new DlgRemind;
                 dlg->set_reminder(i, r);
                 dlg->Create(IDD_DIALOG4, this);
                 dlg->ShowWindow(SW_SHOW);
             }
 
-        }
+        }*/
 
     }
 
@@ -378,12 +392,22 @@ void CMFCTimerDlg::clearReminder() {
 
 void CMFCTimerDlg::refreshReminderList() {
     m_listCtrl.DeleteAllItems();
+    CTime now = CTime::GetCurrentTime();
     for (int i = 0; i < reminders.size(); i++) {
-        CString time = reminders[i].get_time_as_str();
-        CString time_left = reminders[i].get_time_left_as_str();
+        CTime time = reminders[i].get_time();
+        CTimeSpan span = time - now;
+        CString time_left = TEXT("00:00:00");;
+        if (span == 0) {
+            DlgRemind *dlg = new DlgRemind;
+            dlg->set_reminder(i, reminders[i]);
+            dlg->Create(IDD_DIALOG4, this);
+            dlg->ShowWindow(SW_SHOW);
+        } else if(span > 0) {
+            time_left = span.Format(_T("%H:%M:%S"));
+        }
         CString content = reminders[i].get_content();
         CString list_item;
-                list_item.Format(_T("%16s%16s%16s"), time, time_left, content);
+        list_item.Format(_T("%16s%16s  %16s"), time.Format(_T("%H:%M:%S")), time_left, content);
         int idx = m_listCtrl.GetItemCount();
         m_listCtrl.InsertItem(idx, list_item);
     }

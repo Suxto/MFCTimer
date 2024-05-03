@@ -33,7 +33,8 @@ public:
     void sort_by_id();
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-
+    virtual LRESULT CMFCTimerDlg::WindowProc(UINT message, WPARAM wParam,
+                                                   LPARAM lParam);
 
 // Implementation
 protected:
