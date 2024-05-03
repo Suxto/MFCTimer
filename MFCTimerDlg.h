@@ -9,6 +9,8 @@
 #include <vector>
 #include <algorithm>
 
+#define WM_SHOWTASK (WM_USER + 100)
+#define WM_SHOWINDOW (WM_USER + 200)
 
 // CMFCTimerDlg dialog
 class CMFCTimerDlg : public CDialogEx
@@ -16,6 +18,7 @@ class CMFCTimerDlg : public CDialogEx
     int sort_type = 0;
 // Construction
 public:
+    NOTIFYICONDATA m_nid;
 	CMFCTimerDlg(CWnd* pParent = nullptr);	// standard constructor
 	void addReminder(Reminder &r);
 	void addReminder(CTime time, CString content, bool toggleSound);
@@ -39,8 +42,10 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
-        afx_msg HCURSOR OnQueryDragIcon();
-        void OnTimer(UINT_PTR nIDEvent);
+    afx_msg HCURSOR OnQueryDragIcon();
+    void OnTimer(UINT_PTR nIDEvent);
+    afx_msg LRESULT OnShowTask(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnShowWindow(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
       public:
 		std::vector<Reminder> reminders;
@@ -53,4 +58,5 @@ protected:
                 afx_msg void OnBnClickedReadFile();
         afx_msg void OnCbnSelchangeSortType();
                 CComboBox m_box_sort_type;
+        afx_msg void OnBnClickedButton5();
 };

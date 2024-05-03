@@ -72,11 +72,14 @@ BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
         ON_WM_TIMER()
         ON_BN_CLICKED(IDC_BUTTON1, &CMFCTimerDlg::OnBnClickedAddTimer)
         ON_BN_CLICKED(IDC_BUTTON2, &CMFCTimerDlg::OnBnClickedClearAllTimer)
-    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
         ON_BN_CLICKED(IDC_BUTTON3, &CMFCTimerDlg::OnBnClickedSaveFile)
+    ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
+    ON_MESSAGE(WM_SHOWTASK, &CMFCTimerDlg::OnShowTask)
+    ON_MESSAGE(WM_SHOWINDOW, &CMFCTimerDlg::OnShowWindow)
     ON_BN_CLICKED(IDC_BUTTON4, &CMFCTimerDlg::OnBnClickedReadFile)
         ON_CBN_SELCHANGE(IDC_COMBO1, &CMFCTimerDlg::OnCbnSelchangeSortType)
-        END_MESSAGE_MAP()
+    ON_BN_CLICKED(IDC_BUTTON5, &CMFCTimerDlg::OnBnClickedButton5)
+    END_MESSAGE_MAP()
 
 
 // CMFCTimerDlg message handlers
@@ -87,6 +90,17 @@ BOOL CMFCTimerDlg::OnInitDialog()
     m_box_sort_type.AddString(TEXT("添加顺序"));
     m_box_sort_type.AddString(TEXT("提醒时间"));
     m_box_sort_type.SetCurSel(0);
+
+    m_nid.cbSize = sizeof(NOTIFYICONDATA);
+    m_nid.hWnd = GetSafeHwnd();
+    m_nid.uID = IDR_MAINFRAME;
+    m_nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+    m_nid.uCallbackMessage = WM_SHOWTASK;
+    m_nid.hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+    _tcsncpy_s(m_nid.szTip, TEXT("MFCTimer"),
+               sizeof(m_nid.szTip) / sizeof(m_nid.szTip[0]));
+    
+    
 
      //IDM_ABOUTBOX must be in the system command range.
     ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
@@ -238,6 +252,57 @@ void CMFCTimerDlg::OnTimer(UINT_PTR nIDEvent) {
     CDialogEx::OnTimer(nIDEvent);
 }
 
+LRESULT CMFCTimerDlg::OnShowTask(WPARAM wParam, LPARAM lParam) {
+    if (wParam != IDR_MAINFRAME) {
+        return 1;
+    }
+    switch (lParam) {
+        case WM_RBUTTONUP: {
+            LPPOINT lpoint = new tagPOINT;
+            ::GetCursorPos(lpoint); // 得到鼠标位置
+            CMenu menu;
+            menu.CreatePopupMenu(); // 声明一个弹出式菜单
+
+            menu.AppendMenuW(MF_STRING, WM_SHOWINDOW, TEXT("显示窗口"));
+            menu.AppendMenuW(MF_STRING, WM_DESTROY, TEXT("退出"));
+
+            SetForegroundWindow();
+            // 确定弹出式菜单的位置
+            BOOL result = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_RETURNCMD,
+                                              lpoint->x,
+                                lpoint->y, this);
+
+            if (result == WM_SHOWINDOW) {
+                OnShowWindow(IDR_MAINFRAME, WM_LBUTTONDOWN);
+            }
+            else if (result == WM_DESTROY) {
+                AfxPostQuitMessage(0);
+            }
+
+            HMENU hmenu = menu.Detach();
+            menu.DestroyMenu();
+            delete lpoint;
+        } break;
+
+        case WM_LBUTTONDBLCLK: 
+            //this->ShowWindow(SW_SHOW);
+        case WM_LBUTTONDOWN:
+            //this->ShowWindow(SW_SHOW);
+            OnShowWindow(IDR_MAINFRAME, WM_LBUTTONDOWN);
+            break;
+    }
+    return 0;
+}
+
+LRESULT CMFCTimerDlg::OnShowWindow(WPARAM wParam, LPARAM lParam) {
+    if (wParam != IDR_MAINFRAME)
+        return 1;
+
+    this->ShowWindow(SW_SHOW);
+    Shell_NotifyIcon(NIM_DELETE, &m_nid);
+    return 0;
+}
+
 
 
 void CMFCTimerDlg::OnBnClickedAddTimer() {
@@ -256,11 +321,9 @@ void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
 
     // 获取点击的行和列索引
     int nItem = pNMListView->iItem;
-    //pNMListView->
+
     int nSubItem = pNMListView->iSubItem;
 
-    // 执行你的处理逻辑
-    // ...
 
     if (nItem >= 0) {
         /*Reminder r = reminders[nItem];
@@ -373,4 +436,9 @@ void CMFCTimerDlg::OnCbnSelchangeSortType() {
     } else if (sort_type == 1) {
         sort_by_time();
     }
+}
+
+void CMFCTimerDlg::OnBnClickedButton5() {
+    this->ShowWindow(SW_HIDE);
+    Shell_NotifyIcon(NIM_ADD, &m_nid);
 }
