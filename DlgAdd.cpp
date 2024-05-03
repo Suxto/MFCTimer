@@ -152,6 +152,8 @@ void DlgAdd::OnBnClickedOk() {
         if (selection_idx == -1) {
             main_wnd->addReminder(*r);
         } else {
+            int id = main_wnd->reminders[selection_idx].get_id();
+            r->set_id(id);
             main_wnd->reminders[selection_idx] = *r;
         }
         delete r;

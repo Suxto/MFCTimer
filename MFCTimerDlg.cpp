@@ -62,6 +62,7 @@ void CMFCTimerDlg::DoDataExchange(CDataExchange* pDX)
 {
     CDialogEx::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_TIME_DISPLAY, m_timeDisplay);
+    DDX_Control(pDX, IDC_COMBO1, m_box_sort_type);
 }
 
 BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
@@ -74,7 +75,8 @@ BEGIN_MESSAGE_MAP(CMFCTimerDlg, CDialogEx)
     ON_NOTIFY(NM_DBLCLK, IDC_LIST1, &CMFCTimerDlg::OnListClick)
         ON_BN_CLICKED(IDC_BUTTON3, &CMFCTimerDlg::OnBnClickedSaveFile)
     ON_BN_CLICKED(IDC_BUTTON4, &CMFCTimerDlg::OnBnClickedReadFile)
-    END_MESSAGE_MAP()
+        ON_CBN_SELCHANGE(IDC_COMBO1, &CMFCTimerDlg::OnCbnSelchangeCombo1)
+        END_MESSAGE_MAP()
 
 
 // CMFCTimerDlg message handlers
@@ -82,7 +84,10 @@ BOOL CMFCTimerDlg::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
     
-    
+    m_box_sort_type.AddString(TEXT("添加顺序"));
+    m_box_sort_type.AddString(TEXT("提醒时间"));
+    m_box_sort_type.SetCurSel(0);
+
      //IDM_ABOUTBOX must be in the system command range.
     ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
     ASSERT(IDM_ABOUTBOX < 0xF000);
@@ -271,17 +276,32 @@ void CMFCTimerDlg::OnListClick(NMHDR* pNMHDR, LRESULT* pResult)
     *pResult = 0;
 }
 
+void CMFCTimerDlg::sort_by_time() { 
+    std::sort(reminders.begin(), reminders.end(), [](Reminder &a, Reminder &b) {
+        return a.get_time() < b.get_time();
+    });
+}
+
+void CMFCTimerDlg::sort_by_id() {
+    std::sort(reminders.begin(), reminders.end(), [](Reminder &a, Reminder &b) {
+        return a.get_id() < b.get_id();
+    });
+}
+
 void CMFCTimerDlg::addReminder(Reminder &r) {
     reminders.push_back(r);
+    if (sort_type == 1) {
+        sort_by_time();
+    }
     refreshReminderList();
 }
 
-void CMFCTimerDlg::addReminder(CTime time, CString content, bool toggleSound) {
-    Reminder r(time);
-    r.set_content(content);
-    r.set_sound(toggleSound);
-    addReminder(r);
-}
+//void CMFCTimerDlg::addReminder(CTime time, CString content, bool toggleSound) {
+//    Reminder r(time);
+//    r.set_content(content);
+//    r.set_sound(toggleSound);
+//    addReminder(r);
+//}
 
 void CMFCTimerDlg::removeReminder(int index) {
     reminders.erase(reminders.begin() + index);
@@ -343,4 +363,13 @@ void CMFCTimerDlg::OnBnClickedReadFile() {
         ar.Close();
         file.Close();
     } 
+}
+
+void CMFCTimerDlg::OnCbnSelchangeCombo1() {
+    this->sort_type = m_box_sort_type.GetCurSel();
+    if (sort_type == 0) {
+        sort_by_id();
+    } else if (sort_type == 1) {
+        sort_by_time();
+    }
 }

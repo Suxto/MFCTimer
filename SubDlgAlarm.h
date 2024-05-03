@@ -36,4 +36,5 @@ protected:
         afx_msg void OnBnClickedButton6();
         void set_boxs(int h, int m, int s);
         Reminder *get_time();
+        afx_msg void OnBnClickedButton8();
 };

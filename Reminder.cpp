@@ -2,12 +2,16 @@
 #include "Reminder.h"
 #include <vector>
 
-Reminder::Reminder() {}
+int Reminder::num = 0;
 
-Reminder::Reminder(CTime &time) : remind_time(time) {}
+Reminder::Reminder() { id = num++; }
+
+Reminder::Reminder(CTime &time) : remind_time(time) { id = num++; }
 
 Reminder::Reminder(CTime &time, CString &content)
-    : remind_time(time), remind_content(content) {}
+    : remind_time(time), remind_content(content) {
+    id = num++;
+}
 
 void Reminder::set_content(CString &str) { this->remind_content = str; }
 
@@ -29,6 +33,8 @@ CString Reminder::get_time_left_as_str() {
     }
 }
 
+void Reminder::set_id(int id) { this->id = id; }
+
 CString Reminder::get_content() { return this->remind_content; }
 
 CTime Reminder::get_time() { return this->remind_time; }
@@ -37,8 +43,11 @@ bool Reminder::get_sound() { return this->play_sound; }
 
 bool Reminder::get_delete() { return this->del_after_remind; }
 
+int Reminder::get_id() { return this->id; }
+
 CArchive &operator<<(CArchive &ar, const Reminder &r) {
     if (ar.IsStoring()) {
+        ar << r.id;
         ar << r.remind_time;
         ar << r.remind_content;
         ar << r.play_sound;
@@ -49,6 +58,7 @@ CArchive &operator<<(CArchive &ar, const Reminder &r) {
 
 CArchive &operator>>(CArchive &ar, Reminder &r) {
     if (!ar.IsStoring()) {
+        ar >> r.id;
         ar >> r.remind_time;
         ar >> r.remind_content;
         ar >> r.play_sound;

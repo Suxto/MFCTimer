@@ -71,6 +71,7 @@ ON_BN_CLICKED(IDC_BUTTON6, &SubDlgTimer::OnBnClickedButton6)
 ON_BN_CLICKED(IDC_BUTTON5, &SubDlgTimer::OnBnClickedButton5)
 ON_BN_CLICKED(IDC_BUTTON4, &SubDlgTimer::OnBnClickedButton4)
 ON_BN_CLICKED(IDC_BUTTON7, &SubDlgTimer::OnBnClickedConv)
+ON_BN_CLICKED(IDC_BUTTON8, &SubDlgTimer::OnBnClickedReset)
 END_MESSAGE_MAP()
 
 
@@ -162,4 +163,9 @@ Reminder* SubDlgTimer::get_time() {
     CTimeSpan span(0, hour, minute, second);
     currentTime += span;
     return new Reminder(currentTime); 
+}
+
+void SubDlgTimer::OnBnClickedReset() {
+    set_boxs(0, 0, 0);
+    // TODO: Add your control notification handler code here
 }

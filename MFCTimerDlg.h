@@ -7,11 +7,13 @@
 #include "Reminder.h"
 #endif // !Reminder_H
 #include <vector>
+#include <algorithm>
 
 
 // CMFCTimerDlg dialog
 class CMFCTimerDlg : public CDialogEx
 {
+    int sort_type = 0;
 // Construction
 public:
 	CMFCTimerDlg(CWnd* pParent = nullptr);	// standard constructor
@@ -24,7 +26,8 @@ public:
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_MFCTIMER_DIALOG };
 #endif
-
+    void sort_by_time();
+    void sort_by_id();
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
@@ -48,4 +51,6 @@ protected:
 		afx_msg void OnListClick(NMHDR* pNMHDR, LRESULT* pResult);
         afx_msg void OnBnClickedSaveFile();
                 afx_msg void OnBnClickedReadFile();
+        afx_msg void OnCbnSelchangeCombo1();
+                CComboBox m_box_sort_type;
 };

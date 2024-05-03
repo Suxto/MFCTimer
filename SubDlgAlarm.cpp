@@ -71,7 +71,8 @@ BEGIN_MESSAGE_MAP(SubDlgAlarm, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON5, &SubDlgAlarm::OnBnClickedButton5)
     ON_BN_CLICKED(IDC_BUTTON3, &SubDlgAlarm::OnBnClickedButton3)
     ON_BN_CLICKED(IDC_BUTTON6, &SubDlgAlarm::OnBnClickedButton6)
-END_MESSAGE_MAP()
+    ON_BN_CLICKED(IDC_BUTTON8, &SubDlgAlarm::OnBnClickedButton8)
+    END_MESSAGE_MAP()
 
 
 // SubDlgAlarm message handlers
@@ -160,4 +161,9 @@ Reminder *SubDlgAlarm::get_time() {
     CTime time(now.GetYear(), now.GetMonth(), now.GetDay(), hour, minute,
                second);
     return new Reminder(time);
+}
+
+void SubDlgAlarm::OnBnClickedButton8() {
+    set_boxs(0, 0, 0);
+    // TODO: Add your control notification handler code here
 }
